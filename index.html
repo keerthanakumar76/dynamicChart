@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="./styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
+    <title>Real time chart</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #313131;
+      }
+      .storage {
+        text-align: center;
+        width: 900px;
+        min-height: 700px;
+        padding: 3rem;
+        border-radius: 15px;
+        box-shadow: 0 0 20px 10px rgb(0, 0, 0);
+        background-color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="storage animate__animated animate__fadeInUpBig">
+      <h1>Random value Updation</h1>
+      <canvas id="chart"></canvas>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+      const real_chart = document.getElementById("chart").getContext("2d");
+      let chart;
+
+      const initialData = {
+        labels: [],
+        datasets: [
+          {
+            label: "Value",
+            data: [],
+            borderColor: "rgb(80, 80, 252)",
+            borderWidth: 3,
+            fill: true,
+            backgroundColor: "rgb(173,173,173)",
+          },
+        ],
+      };
+
+      const update = {
+        type: "line",
+        data: initialData,
+        options: {
+          scales: {
+            x: {
+              type: "linear",
+              position: "bottom",
+              title: {
+                display: true,
+                text: "Time",
+              },
+            },
+            y: {
+              beginAtZero: true,
+              title: {
+                display: true,
+                text: "Value",
+              },
+            },
+          },
+          animation: true,
+        },
+      };
+
+      chart = new Chart(real_chart, update);
+
+      function addData() {
+        const newData = Math.random() * 100;
+        chart.data.labels.push(chart.data.labels.length);
+        chart.data.datasets[0].data.push(newData);
+        chart.update();
+      }
+
+      setInterval(addData, 1000);
+    </script>
+  </body>
+</html>
